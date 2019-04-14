@@ -1,6 +1,6 @@
 package com.spring.boot.rest.angularjs.ttsserver.dto;
 
-public class Text2Convert {
+public class TextToConvert {
 
     private String textToConvert;
 

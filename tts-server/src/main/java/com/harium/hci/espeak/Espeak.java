@@ -1,6 +1,12 @@
 package com.harium.hci.espeak;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringBufferInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Reference: http://espeak.sourceforge.net/commands.html
@@ -18,11 +24,32 @@ public class Espeak {
         this.voice = voice;
     }
 
-    /**
-     * Create a new espeak process
-     *
-     * @param text - the text to speak
-     */
+    public String getSpeakCommandHelp() throws Exception {
+        String command = COMMAND_ESPEAK + " --help";
+        Process proc = Runtime.getRuntime().exec(command);
+        BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = in.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        return stringBuilder.toString();
+    }
+
+    public String[] getSpeakCommandVoices() throws Exception {
+        String command = COMMAND_ESPEAK + " --voices";
+        Process proc = Runtime.getRuntime().exec(command);
+        BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        List<String> voices = new ArrayList<>();
+        String line;
+        while ((line = in.readLine()) != null) {
+            voices.add(line);
+        }
+        return voices.toArray(new String[voices.size()]);
+    }
+
+
+
     public void speak(String text) {
         execute(COMMAND_ESPEAK,
                 "-v", voice.getName() + voice.getVariant(),
