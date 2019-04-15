@@ -118,7 +118,7 @@ public class Espeak {
                 "-a", Integer.toString(voice.getAmplitude()),
                 "-s", Integer.toString(voice.getSpeed()),
                 "-g", Integer.toString(voice.getGap()),
-                "-w", "./tts-server/src/main/resources/wave.files/" + voice.getWaveFileName(),
+                "-w", "./tts-server/src/main/resources/static/wave.files/" + voice.getWaveFileName(),
                 text);
         }
     }

@@ -28,7 +28,8 @@ const sendText = (text) => {
     .then(
         result => {
             console.log(result);
-            message('success',result);
+            let resultMsg = result.data.message?result.data.message:result.data;
+            message('success',resultMsg);
         }
     )
     .catch(
