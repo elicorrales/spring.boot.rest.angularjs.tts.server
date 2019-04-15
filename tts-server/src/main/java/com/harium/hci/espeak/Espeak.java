@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Espeak {
 
+    public static enum ExecutionType { THREADED_NO_RESULT, THREADED_WAIT_FOR_RESULT, NOT_THREADED };
     public static final String COMMAND_ESPEAK = "espeak";
     private Voice voice;
 
@@ -50,8 +51,11 @@ public class Espeak {
 
 
 
-    public void speak(String text) {
-        execute(COMMAND_ESPEAK,
+    public void speak(ExecutionType execHow, String text) throws Exception {
+        if (text == null || text.isEmpty()) {
+            throw new IllegalArgumentException("Missing Text");
+        }
+        execute(execHow, COMMAND_ESPEAK,
                 "-v", voice.getName() + voice.getVariant(),
                 "-p", Integer.toString(voice.getPitch()),
                 "-a", Integer.toString(voice.getAmplitude()),
@@ -60,9 +64,26 @@ public class Espeak {
                 text);
     }
 
-    private static void execute(final String ... command) {
-        String threadName = "espeak";
+    private static void execute(final ExecutionType execHow, final String ... command)  throws Exception {
+        switch (execHow) {
+            case NOT_THREADED:
+                        executeNoThread(command);
+                        break;
+            case THREADED_NO_RESULT:
+                        executeSingleThreadNoWaitForResult(command);
+                        break;
+        }
+    }
 
+    private static void executeNoThread(final String ... command) throws Exception {
+        ProcessBuilder b = new ProcessBuilder(command);
+        Process process = b.start();
+        process.waitFor();
+        process.destroy();
+    }
+
+    private static void executeSingleThreadNoWaitForResult(final String ... command) {
+        String threadName = "espeak";
         new Thread(new Runnable() {
             public void run() {
                 ProcessBuilder b = new ProcessBuilder(command);

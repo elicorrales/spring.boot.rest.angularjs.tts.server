@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<tts-server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.spring.boot.rest.angularjs.ttsserver.Application",
+            "projectName": "tts-server",
+            "args": ""
+        }
+    ]
+}

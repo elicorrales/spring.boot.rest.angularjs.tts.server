@@ -2,15 +2,37 @@
 <html ng-app="app">
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <script src="js.vendor/angular.min.js"></script>
-        <script src="js.vendor/axios.min.js"></script>
-        <script src="index.js"></script>
+    </head>
+    <header>
+
+    </header>
+    <body>
+        <div class="container-fluid">
+            <div id="message"></div>
+            <div id="textEntryPanel" class="panel panel-info">
+                <div class="panel-heading">
+                    <h2 class="panel-title pull-left">Text To Speech</h2>
+                    <button id="testBtn" class="btn btn-primary pull-right" onClick="onTestBtnClickDoServerTest(event)">Just Test Server</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <textarea id="textToConvert" class="form-control" rows="5" autofocus
+                            onkeyup="onTextToConvertChangeDoSubmit(this,event)"
+                    placeholder="Please type or paste text here.  NOTE: Hitting ENTER will submit text to server."></textarea>
+                </div>
+                </div>
+        </div>
+        </div>
+    </body>
+    <script src="js.vendor/axios.min.js"></script>
+    <script src="js/message.js"></script>
+    <script src="js/elements.js"></script>
+    <script src="js/comm.js"></script>
+    <script src="index.js"></script>
+    <!--
         <script src="components/navbar/navbar.js"></script>
         <script src="components/page-header/page-header.js"></script>
         <script src="components/page-footer/page-footer.js"></script>
         <script src="components/main-component/main-component.js"></script>
-    </head>
-    <body>
-        <main-component></main-component>
-    </body>
+    -->
 </html>

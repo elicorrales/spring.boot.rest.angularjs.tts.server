@@ -1,5 +1,7 @@
 package com.spring.boot.rest.angularjs.ttsserver;
 
+import com.harium.hci.espeak.Espeak;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,4 +15,10 @@ public class ApplicationTests {
 	public void contextLoads() {
 	}
 
+	@Test
+	public void testEspeak() throws Exception {
+		Espeak espeak = new Espeak();
+
+		espeak.speak(Espeak.ExecutionType.NOT_THREADED, "This is a test");
+	}
 }
