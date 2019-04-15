@@ -8,7 +8,7 @@ const test = () => {
     .then(
         result => {
             console.log(result);
-            message('success',JSON.stringify(result));
+            message('success','Success');
         }
     )
     .catch(
@@ -21,13 +21,13 @@ const test = () => {
 
 
 const sendText = (text) => {
-    axios.post('/text2speech', {
+    axios.post('/text2speech?language=' + language.selected, {
         textToConvert:text
     })
     .then(
         result => {
             console.log(result);
-            message('success',JSON.stringify(result));
+            message('success','Success');
         }
     )
     .catch(

@@ -16,17 +16,24 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
-                    <textarea id="textToConvert" class="form-control" rows="5" autofocus
+                    <div class="container-fluid">
+                        <label class="radio-inline"><input id="english" type="radio" name="optradio" checked onchange="onChangeLanguageSelect(this)">English</label>
+                        <label class="radio-inline"><input id="spanish" type="radio" name="optradio" onchange="onChangeLanguageSelect(this)">Spanish</label>
+                        <label class="radio-inline"><input  id="french" type="radio" name="optradio" onchange="onChangeLanguageSelect(this)">French</label>
+                    </div>
+                    <div class="container-fluid">
+                        <textarea id="textToConvert" class="form-control" rows="20" autofocus
                             onkeyup="onTextToConvertChangeDoSubmit(this,event)"
-                    placeholder="Please type or paste text here.  NOTE: Hitting ENTER will submit text to server."></textarea>
+                            placeholder="Please type or paste text here.  NOTE: Hitting ENTER will submit text to server."></textarea>
+                        </div>
+                    </div>
                 </div>
-                </div>
-        </div>
+            </div>
         </div>
     </body>
     <script src="js.vendor/axios.min.js"></script>
     <script src="js/message.js"></script>
-    <script src="js/elements.js"></script>
+    <script src="js/language.js"></script>
     <script src="js/comm.js"></script>
     <script src="index.js"></script>
     <!--

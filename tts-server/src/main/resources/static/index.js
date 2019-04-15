@@ -14,4 +14,9 @@ const onTextToConvertChangeDoSubmit = (obj,event) => {
     }
 };
 
+const onChangeLanguageSelect = (obj) => {
+
+        language.selected = obj.id;
+}
+
 message('','');
