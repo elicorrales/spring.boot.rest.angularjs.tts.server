@@ -88,25 +88,39 @@ public class Espeak {
         return response;
     }
 
-    public void speak(SpeakCommandExecutionType execHow, String text) throws Exception {
-        speak(execHow, COMMAND_ESPEAK, text);
+    public String speakToFile(SpeakCommandExecutionType execHow, String text) throws Exception {
+        String fileName = new Date().getTime()+".wav";
+        this.voice.setWaveFileName(fileName);
+        speak(execHow, text);
+        return fileName;
     }
 
-    public void speakToFile(SpeakCommandExecutionType execHow, String text) throws Exception {
-        String fileName = new Date().getTime()+".wav";
-        String command = COMMAND_ESPEAK_TO_FILE + fileName;
-        speak(execHow, command , text);
+    public String speak(SpeakCommandExecutionType execHow, String text) throws Exception {
+        speak(execHow, COMMAND_ESPEAK, text);
+        return "Text Spoken At Server";
     }
 
     public void speak(SpeakCommandExecutionType execHow, String command, String text) throws Exception {
-        if (text == null || text.isEmpty()) { throw new IllegalArgumentException("Missing Text"); }
-        executeSpeakCommand(execHow, command,
+        if (text == null || text.trim().isEmpty()) { throw new IllegalArgumentException("Missing Text"); }
+
+        if (this.voice.getWaveFileName() == null || this.voice.getWaveFileName().isEmpty()) {
+            executeSpeakCommand(execHow, command,
                 "-v", voice.getName() + voice.getVariant(),
                 "-p", Integer.toString(voice.getPitch()),
                 "-a", Integer.toString(voice.getAmplitude()),
                 "-s", Integer.toString(voice.getSpeed()),
                 "-g", Integer.toString(voice.getGap()),
                 text);
+        } else {
+            executeSpeakCommand(execHow, command,
+                "-v", voice.getName() + voice.getVariant(),
+                "-p", Integer.toString(voice.getPitch()),
+                "-a", Integer.toString(voice.getAmplitude()),
+                "-s", Integer.toString(voice.getSpeed()),
+                "-g", Integer.toString(voice.getGap()),
+                "-w", "./tts-server/src/main/resources/wave.files/" + voice.getWaveFileName(),
+                text);
+        }
     }
 
     private static void executeSpeakCommand(final SpeakCommandExecutionType execHow, final String ... command)  throws Exception {

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.harium.hci.espeak.OutputLine;
 import com.spring.boot.rest.angularjs.ttsserver.dto.Command;
+import com.spring.boot.rest.angularjs.ttsserver.dto.MyResponse;
 import com.spring.boot.rest.angularjs.ttsserver.dto.TextToConvert;
 import com.spring.boot.rest.angularjs.ttsserver.service.Text2SpeechService;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -42,7 +44,7 @@ public class Text2SpeechRestController {
     }
 
     @PostMapping("speech")
-    public  ResponseEntity<String> text2speech(@RequestBody TextToConvert textToConvert,
+    public  ResponseEntity<?> text2speech(@RequestBody TextToConvert textToConvert,
                 @RequestParam(required=false,name="language") String language,
                 @RequestParam(required=false,name="toFile") String toFile
                 ) {
@@ -56,15 +58,16 @@ public class Text2SpeechRestController {
             params.put("textToConvert", textToConvert.getTextToConvert());
             if (language != null) { params.put("language",language); }
             if (toFile == null || toFile.isEmpty() || toFile.equals("undefined") || toFile.equals("false")) {
-                service.convertTextToSpeech(params,false);
+                String response = service.convertTextToSpeech(params,false);
+                return new ResponseEntity<>(new MyResponse(response),HttpStatus.OK);
             } else {
-                service.convertTextToSpeech(params,true);
+                String response = service.convertTextToSpeech(params,true);
+                return new ResponseEntity<>(new MyResponse(response),HttpStatus.OK);
             }
-            service.convertTextToSpeech(params,false);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            e.printStackTrace();
+            return new ResponseEntity<>(new MyResponse(e.getMessage()),HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Text Received",HttpStatus.OK);
     }
 
 
@@ -74,6 +77,7 @@ public class Text2SpeechRestController {
             String[] output = service.killSpeech();
             return new ResponseEntity<>(output,HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
@@ -86,6 +90,7 @@ public class Text2SpeechRestController {
             OutputLine[] output = service.runCommand(commandStr.trim());
             return new ResponseEntity<>(output,HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }

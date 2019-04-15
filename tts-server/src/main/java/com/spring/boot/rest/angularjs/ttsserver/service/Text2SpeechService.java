@@ -17,7 +17,7 @@ public class Text2SpeechService {
     }
 
 
-    public void convertTextToSpeech(Map<String,String> params, boolean toFile) throws Exception {
+    public String convertTextToSpeech(Map<String,String> params, boolean toFile) throws Exception {
         Espeak espeak;
         String text2convert = params.get("textToConvert");
         if (params.size()>1) {
@@ -29,9 +29,9 @@ public class Text2SpeechService {
         }
 
         if (toFile) {
-            espeak.speakToFile(SpeakCommandExecutionType.NOT_THREADED, text2convert);
+            return espeak.speakToFile(SpeakCommandExecutionType.NOT_THREADED, text2convert);
         } else {
-            espeak.speak(SpeakCommandExecutionType.NOT_THREADED, text2convert);
+            return espeak.speak(SpeakCommandExecutionType.NOT_THREADED, text2convert);
         }
     }
 

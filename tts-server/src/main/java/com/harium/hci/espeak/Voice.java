@@ -20,6 +20,8 @@ public class Voice {
     // Voice variant
     private String variant = "";
 
+    private String waveFileName = "";
+
     public String getName() {
         return name;
     }
@@ -118,5 +120,13 @@ public class Voice {
 
     public void removeVariant() {
         variant = "";
+    }
+
+    public void setWaveFileName(String fileName) {
+        this.waveFileName = fileName;
+    }
+
+    public String getWaveFileName() { 
+        return this.waveFileName;
     }
 }

@@ -8,7 +8,7 @@ const test = () => {
     .then(
         result => {
             console.log(result);
-            message('success','Success');
+            message('success',result);
         }
     )
     .catch(
@@ -19,26 +19,7 @@ const test = () => {
     )
 };
 
-/*
-const sendText = (text) => {
-    axios.post('/speech?language=' + language.selected, {
-        textToConvert:text
-    })
-    .then(
-        result => {
-            console.log(result);
-            message('success','Success');
-        }
-    )
-    .catch(
-        error => {
-            console.log(error);
-            let errMsg = error.response && error.response.data && error.response.data.message?error.response.data.message:error;
-            message('danger',errMsg);
-        }
-    )
-};
-*/
+
 const sendText = (text) => {
     let url = '/speech?language=' + language.selected + '&toFile=' + language.toFile;
     axios.post(url, {
@@ -47,7 +28,7 @@ const sendText = (text) => {
     .then(
         result => {
             console.log(result);
-            message('success','Success');
+            message('success',result);
         }
     )
     .catch(
