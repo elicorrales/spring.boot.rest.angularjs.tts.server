@@ -1,11 +1,11 @@
 package com.spring.boot.rest.angularjs.ttsserver.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.harium.hci.espeak.Espeak;
+import com.harium.hci.espeak.OutputLine;
+import com.harium.hci.espeak.Espeak.SpeakCommandExecutionType;
 import com.harium.hci.espeak.Voice;
-import com.harium.hci.espeak.Espeak.ExecutionType;
 
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 public class Text2SpeechService {
 
     public void convertTextToSpeech(String textToConvert) throws Exception {
-        new Espeak().speak(ExecutionType.NOT_THREADED , textToConvert);
+        new Espeak().speak(SpeakCommandExecutionType.NOT_THREADED , textToConvert);
     }
 
 
-    public void convertTextToSpeech(Map<String,String> params) throws Exception {
+    public void convertTextToSpeech(Map<String,String> params, boolean toFile) throws Exception {
         Espeak espeak;
         String text2convert = params.get("textToConvert");
         if (params.size()>1) {
@@ -27,7 +27,21 @@ public class Text2SpeechService {
         } else {
             espeak = new Espeak();
         }
-        espeak.speak(ExecutionType.NOT_THREADED, text2convert);
+
+        if (toFile) {
+            espeak.speakToFile(SpeakCommandExecutionType.NOT_THREADED, text2convert);
+        } else {
+            espeak.speak(SpeakCommandExecutionType.NOT_THREADED, text2convert);
+        }
+    }
+
+
+    public String[] killSpeech() throws Exception {
+        return new Espeak().killSpeech();
+    }
+
+    public OutputLine[] runCommand(String command) throws Exception {
+        return new Espeak().runCommand(command);
     }
 
     public String getSpeakCommandHelp() throws Exception {

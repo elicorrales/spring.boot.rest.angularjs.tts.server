@@ -1,10 +1,12 @@
 'use strict';
 
-const testBtnElem = document.getElementById('testBtn');
 
-const onTestBtnClickDoServerTest = (event) => {
-    event.preventDefault();
+const onTestBtnClickDoServerTest = () => {
     comm.test();
+};
+
+const onKillBtnClickDoKillSpeech = () => {
+    comm.killSpeech();
 };
 
 const onTextToConvertChangeDoSubmit = (obj,event) => {
@@ -14,9 +16,19 @@ const onTextToConvertChangeDoSubmit = (obj,event) => {
     }
 };
 
-const onChangeLanguageSelect = (obj) => {
+const onCommandToRunChangeDoSubmit = (obj,event) => {
+    if (event.code == 'Enter' && obj.value && obj.value.length > 1) {
+        message('info','Submitting Command To Run..please wait...');
+        comm.runCommand(obj.value);
+    }
+};
 
+const onChangeLanguageSelect = (obj) => {
         language.selected = obj.id;
+}
+
+const onChangeToFile = (obj) => {
+        language.toFile = obj.checked;
 }
 
 message('','');

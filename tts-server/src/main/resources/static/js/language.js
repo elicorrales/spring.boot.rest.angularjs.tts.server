@@ -7,3 +7,4 @@ language.englishElem = englishElem;
 language.spanishElem = spanishElem;
 language.frenchElem = frenchElem;
 language.selected = 'english';
+language.toFile = false;

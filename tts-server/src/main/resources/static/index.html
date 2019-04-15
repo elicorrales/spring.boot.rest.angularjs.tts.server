@@ -11,11 +11,34 @@
             <div id="message"></div>
             <div id="textEntryPanel" class="panel panel-info">
                 <div class="panel-heading">
-                    <h2 class="panel-title pull-left">Text To Speech</h2>
-                    <button id="testBtn" class="btn btn-primary pull-right" onClick="onTestBtnClickDoServerTest(event)">Just Test Server</button>
+                    <h2 class="panel-title pull-left">Run Server-Side Shell Command</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
+                    <div class="container-fluid">
+                        <textarea id="commandToRun" class="form-control" rows="10" autofocus
+                            onkeyup="onCommandToRunChangeDoSubmit(this,event)"
+                            placeholder="Please type or paste text here.  NOTE: Hitting ENTER will submit text to server."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div id="message"></div>
+            <div id="textEntryPanel" class="panel panel-info">
+                <div class="panel-heading">
+                    <h2 class="panel-title pull-left">Text To Speech</h2>
+                    <button id="testBtn" class="btn btn-primary pull-right" onClick="onTestBtnClickDoServerTest()">Just Test Server</button>
+                    <button id="killBtn" class="btn btn-primary pull-right" onClick="onKillBtnClickDoKillSpeech()">KillSpeech</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <div class="checkbox">
+                            <label><input id="toFile" type="checkbox" onchange="onChangeToFile(this)">To File</label>
+                        </div>
+                    </div>
                     <div class="container-fluid">
                         <label class="radio-inline"><input id="english" type="radio" name="optradio" checked onchange="onChangeLanguageSelect(this)">English</label>
                         <label class="radio-inline"><input id="spanish" type="radio" name="optradio" onchange="onChangeLanguageSelect(this)">Spanish</label>

@@ -1,22 +1,22 @@
 package com.spring.boot.rest.angularjs.ttsserver.controller;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.spring.boot.rest.angularjs.ttsserver.dto.Customer;
-import com.spring.boot.rest.angularjs.ttsserver.dto.HelpResponse;
-import com.spring.boot.rest.angularjs.ttsserver.dto.MyResponse;
+import com.harium.hci.espeak.OutputLine;
+import com.spring.boot.rest.angularjs.ttsserver.dto.Command;
 import com.spring.boot.rest.angularjs.ttsserver.dto.TextToConvert;
 import com.spring.boot.rest.angularjs.ttsserver.service.Text2SpeechService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,26 +26,26 @@ public class Text2SpeechRestController {
     private Text2SpeechService service;
 
     @GetMapping("test")
-    public MyResponse test() throws Exception {
+    public ResponseEntity<?> test() throws Exception {
         service.convertTextToSpeech("This is a test.");
-        return null;
+        return new ResponseEntity<>("Tested",HttpStatus.OK);
     }
 
     @GetMapping("help")
-    public HelpResponse help() throws Exception {
-        return new HelpResponse(service.getSpeakCommandHelp());
+    public ResponseEntity<?> help() throws Exception {
+        return new ResponseEntity<>(service.getSpeakCommandHelp(),HttpStatus.OK);
     }
 
     @GetMapping("voices")
-    public String[] voices() throws Exception {
-        return service.getSpeakCommandVoices();
+    public ResponseEntity<?> voices() throws Exception {
+        return new ResponseEntity<>(service.getSpeakCommandVoices(),HttpStatus.OK);
     }
 
-    @PostMapping("text2speech")
-    public  ResponseEntity<MyResponse> text2speech(@RequestBody TextToConvert textToConvert,
-                @RequestParam(required=false,name="language") String language
+    @PostMapping("speech")
+    public  ResponseEntity<String> text2speech(@RequestBody TextToConvert textToConvert,
+                @RequestParam(required=false,name="language") String language,
+                @RequestParam(required=false,name="toFile") String toFile
                 ) {
-
         try {
 
             if (textToConvert.getTextToConvert() == null) {
@@ -55,24 +55,41 @@ public class Text2SpeechRestController {
             Map<String,String> params = new HashMap<>();
             params.put("textToConvert", textToConvert.getTextToConvert());
             if (language != null) { params.put("language",language); }
-            service.convertTextToSpeech(params);
+            if (toFile == null || toFile.isEmpty() || toFile.equals("undefined") || toFile.equals("false")) {
+                service.convertTextToSpeech(params,false);
+            } else {
+                service.convertTextToSpeech(params,true);
+            }
+            service.convertTextToSpeech(params,false);
         } catch (Exception e) {
-            return new ResponseEntity<>(new MyResponse(e.getMessage()),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new MyResponse("Text Received"),HttpStatus.OK);
+        return new ResponseEntity<>("Text Received",HttpStatus.OK);
     }
 
-/*
-    @PostMapping("text2speech")
-    public MyResponse text2speech(@RequestBody TextToConvert textToConvert) {
-        service.convertTextToSpeech(textToConvert.getTextToConvert());
-        return null;
+
+    @DeleteMapping("speech")
+    public  ResponseEntity<?> killSpeech() {
+        try {
+            String[] output = service.killSpeech();
+            return new ResponseEntity<>(output,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
-*/
-    @PostMapping("customer")
-    public MyResponse text2speech(@RequestBody Customer customer) {
-        System.err.println("\n\n"+customer+"\n\n");
-        return null;
+
+    @PostMapping("command")
+    public  ResponseEntity<?> runCommand(@RequestBody Command command) {
+
+        try {
+            String commandStr = URLDecoder.decode(command.getCommand(),"UTF-8");
+            OutputLine[] output = service.runCommand(commandStr.trim());
+            return new ResponseEntity<>(output,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
+
+
 
 }
