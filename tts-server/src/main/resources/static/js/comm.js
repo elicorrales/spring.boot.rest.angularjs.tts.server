@@ -4,86 +4,37 @@ var comm = {};
 
 const test = () => {
     console.log('test');
-    axios.get('/test')
-    .then(
-        result => {
-            console.log(result);
-            message('success',result);
-        }
-    )
-    .catch(
-        error => {
-            console.log(error);
-            message('danger',error);
-        }
-    )
+    return axios.get('/test')
 };
 
 
-const sendText = (text) => {
-    let url = '/speech?language=' + language.selected + '&toFile=' + language.toFile;
-    axios.post(url, {
+const sendText = (text, language, saveToFile) => {
+    let url = '/speech?language=' + language + '&toFile=' + saveToFile;
+    return axios.post(url, {
         textToConvert:text
-    })
-    .then(
-        result => {
-            console.log(result);
-            let resultMsg = result.data.message?result.data.message:result.data;
-            message('success',resultMsg);
-        }
-    )
-    .catch(
-        error => {
-            console.log(error);
-            let errMsg = error.response && error.response.data && error.response.data.message?error.response.data.message:error;
-            message('danger',errMsg);
-        }
-    )
+    });
+};
+
+const checkForWaveFile = (fileName) => {
+    let url = '/wave.files/'+fileName;
+    return axios.get(url);
 };
 
 const killSpeech = () => {
     console.log('kill');
-    axios.delete('/speech')
-    .then(
-        result => {
-            console.log(result);
-            message('success',JSON.stringify(result.data,null,'<br/>'));
-        }
-    )
-    .catch(
-        error => {
-            console.log(error);
-            message('danger',error);
-        }
-    )
+    return axios.delete('/speech')
 };
 
 
 const runCommand = (text) => {
-    axios.post('/command', {
+    return axios.post('/command', {
         command:text
     })
-    .then(
-        result => {
-            console.log(result);
-            let output = '';
-            for (var i=0;i<result.data.length;i++) {
-                output += result.data[i].line + '<br/>';
-            }
-            message('success',output);
-        }
-    )
-    .catch(
-        error => {
-            console.log(error);
-            let errMsg = error.response && error.response.data && error.response.data.message?error.response.data.message:error;
-            message('danger',errMsg);
-        }
-    )
 };
 
 
 comm.test = test;
 comm.sendText = sendText;
+comm.checkForWaveFile = checkForWaveFile;
 comm.killSpeech = killSpeech;
 comm.runCommand = runCommand;

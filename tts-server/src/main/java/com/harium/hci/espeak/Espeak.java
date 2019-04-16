@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Reference: http://espeak.sourceforge.net/commands.html
@@ -79,7 +80,6 @@ public class Espeak {
         List<OutputLine> output = new ArrayList<>();
         String line;
         while ((line = in.readLine()) != null) {
-            //output.add(line);
             output.add(new OutputLine(line));
         }
         proc.waitFor();

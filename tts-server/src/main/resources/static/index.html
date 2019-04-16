@@ -3,8 +3,10 @@
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     </head>
-    <header>
-
+    <header class="text-center">
+        <h1>Espeak Browser Playback Demo</h1>
+        <h2>Server-Side Audio</h2>
+        <h3>Remote Shell Commands</h3>
     </header>
     <body>
         <div class="container-fluid">
@@ -16,7 +18,9 @@
                 </div>
                 <div class="panel-body">
                     <div id="waveFileAudioDropIn" class="container-fluid">
+                        <!--
                         <audio src="wave.files/1555361926633.wav" controls></audio>
+                        -->
                     </div>
                 </div>
             </div>
@@ -30,7 +34,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="container-fluid">
-                        <textarea id="commandToRun" class="form-control" rows="10" autofocus
+                        <textarea id="commandToRun" class="form-control" rows="1" autofocus
                             onkeyup="onCommandToRunChangeDoSubmit(this,event)"
                             placeholder="Please type or paste text here.  NOTE: Hitting ENTER will submit text to server."></textarea>
                         </div>
@@ -59,7 +63,7 @@
                         <label class="radio-inline"><input  id="french" type="radio" name="optradio" onchange="onChangeLanguageSelect(this)">French</label>
                     </div>
                     <div class="container-fluid">
-                        <textarea id="textToConvert" class="form-control" rows="20" autofocus
+                        <textarea id="textToConvert" class="form-control" rows="10" autofocus
                             onkeyup="onTextToConvertChangeDoSubmit(this,event)"
                             placeholder="Please type or paste text here.  NOTE: Hitting ENTER will submit text to server."></textarea>
                         </div>
